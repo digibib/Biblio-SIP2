@@ -8,7 +8,7 @@ foreach ( <DATA> ) {
 	my ($code,$description) = split(/\t/,$_,2);
 	$message_codes->{$code} = $description;
 }
-warn "# message_codes ", Data::Dump::dump $message_codes;
+# warn "# message_codes ", Data::Dump::dump $message_codes;
 
 sub dump_message {
 	my ( $self, $prefix, $message ) = @_;

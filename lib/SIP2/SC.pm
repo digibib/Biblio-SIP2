@@ -21,7 +21,7 @@ sub new {
 	my $class = shift;
 	my $self;
 	$self->{sock} = IO::Socket::INET->new( @_ ) || die "can't connect to ", dump(@_), ": $!";
-	warn "# connected to ", $self->{sock}->peerhost, ":", $self->{sock}->peerport, "\n";
+	# warn "# connected to ", $self->{sock}->peerhost, ":", $self->{sock}->peerport, "\n";
 	bless $self, $class;
 	$self;
 }
@@ -36,7 +36,7 @@ sub message {
 
 	$send .= "\r" unless $send =~ m/\r/;
 
-	$self->dump_message( ">>>> $ip ", $send );
+	# $self->dump_message( ">>>> $ip ", $send );
 	print $sock $send;
 	$sock->flush;
 
@@ -46,8 +46,8 @@ sub message {
 
 	die "ERROR: no response from $ip\n" unless $in;
 
-	$in =~ s/^\n// && warn "removed LF from beginning";
-	$self->dump_message( "<<<< $ip ", $in );
+	$in =~ s/^\n//; # && warn "removed LF from beginning";
+	# $self->dump_message( "<<<< $ip ", $in );
 	die "expected $expect" unless substr($in,0,2) != $expect;
 
 	return $in;
