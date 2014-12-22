@@ -19,6 +19,7 @@ use IO::Select;
 use Data::Dump qw(dump);
 
 use lib 'lib';
+use base qw(SIP2);
 use SIP2::SC;
 
 sub proxy {
@@ -39,28 +40,33 @@ sub proxy {
 			if ($sock == $lsn) {
 				my $new = $lsn->accept;
 				my $ip = $new->peerhost;
-				warn "connection from $ip\n";
+				#warn "connection from $ip\n";
+				SIP2->dump_message( "== CONNECT from $ip" );
 				$sel->add($new);
 			} else {
 				my $request = <$sock>;
 				if ( ! defined $request ) {
-					warn "disconnect from ", $sock->peerhost;
+					# warn "disconnect from ", $sock->peerhost;
+					SIP2->dump_message( "== DISCONNECT from ", dump($sock->peerhost) );
 					$sel->remove( $sock );
 					delete( $sc->{$sock} );
 					close($sock);
 					next;
 				}
 				my $ip = $sock->peerhost;
-				warn "<< $ip ", dump($request);
+				SIP2->dump_message( "<< $ip ", dump($request) );
+				# warn "<< $ip ", dump($request);
 				if ( ! $sc->{$sock} ) {
-					warn "connect to $server for $sock\n";
+					# warn "connect to $server for $sock\n";
+					SIP2->dump_message( "== SOCK_CONNECT to $server" );
 					$sc->{$sock} = SIP2::SC->new( $server );
 				}
 				$request .= "\n" if $request !~ m/\n$/ && $ENV{CRLF};
 				my $response = $sc->{$sock}->message( $request );
 				$response .= "\n" if $response !~ m/\n$/ && $ENV{CRLF};
 				print $sock $response;
-				warn ">> $ip ", dump($response);
+				# warn ">> $ip ", dump($response);
+				SIP2->dump_message( ">> $ip ", dump($response) );
 			}
 		}
 	}
