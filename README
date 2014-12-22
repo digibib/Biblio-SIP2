@@ -1,7 +1,34 @@
-Simple 3M SIP2 Standard Interchange Protocol implementation in perl
+# Simple 3M SIP2 Standard Interchange Protocol implementation in perl
 
+## Setup / Requirements
 
-Why do we need another SIP2 implementation?
+In Ubuntu, to install Data::Dump module
+
+    sudo apt-get install -y libdata-dump-perl
+
+## Usage
+
+to run the acl proxy server
+
+    ./acl-proxy.pl <listen host:port> <sipserver host:port>
+
+e.g.
+
+    ./acs-proxy.pl localhost:6002 192.168.50.12:6001
+
+to run the emulation:
+
+    cp config.pl.example config.pl
+
+modify `connfig.pl` to use real users and barcodes, and run
+
+    ACL=<sipserver host:port> ./sc-emulation
+
+## Tests
+
+./prove
+
+## Why do we need another SIP2 implementation?
 
 That's a great question! Mostly because others are wrong in one way or another, most
 importantly: 
