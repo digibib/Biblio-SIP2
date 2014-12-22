@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+our $user     = 'autouser';
+our $password = 'autopass';
+our $patron   = '2';
+our $barcode  = '03010626460056';
+our $loc      = 'HUTL';
