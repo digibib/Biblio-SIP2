@@ -1,4 +1,5 @@
-# Simple 3M SIP2 Standard Interchange Protocol implementation in perl
+Simple 3M SIP2 Standard Interchange Protocol implementation in perl
+========
 
 ## Setup / Requirements
 
