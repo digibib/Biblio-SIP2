@@ -21,13 +21,13 @@ to run the emulation:
 
     cp config.pl.example config.pl
 
-modify `connfig.pl` to use real users and barcodes, and run
+modify `config.pl` to use real users and barcodes, and run
 
     ACL=<sipserver host:port> ./sc-emulation
 
 ## Tests
 
-./prove
+    ./prove
 
 ## Why do we need another SIP2 implementation?
 
@@ -47,7 +47,7 @@ References:
 
 * http://solutions.3m.com/wps/portal/3M/en_US/library/home/resources/protocols/
 
-Exiting implementations:
+Existing implementations:
 
 * http://openncip.org/
 * http://www.rice.edu/perl4lib/archives/2003-05/msg00032.html
