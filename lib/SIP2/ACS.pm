@@ -41,24 +41,23 @@ sub proxy {
 				my $new = $lsn->accept;
 				my $ip = $new->peerhost;
 				#warn "connection from $ip\n";
-				SIP2->dump_message( "== CONNECT from $ip" );
+				SIP2->dump_message( "==== CONNECT from $ip", "" );
 				$sel->add($new);
 			} else {
 				my $request = <$sock>;
 				if ( ! defined $request ) {
 					# warn "disconnect from ", $sock->peerhost;
-					SIP2->dump_message( "== DISCONNECT from ", dump($sock->peerhost) );
+					SIP2->dump_message( "==== DISCONNECT from", dump($sock->peerhost) );
 					$sel->remove( $sock );
 					delete( $sc->{$sock} );
 					close($sock);
 					next;
 				}
 				my $ip = $sock->peerhost;
-				SIP2->dump_message( "<< $ip ", dump($request) );
 				# warn "<< $ip ", dump($request);
 				if ( ! $sc->{$sock} ) {
 					# warn "connect to $server for $sock\n";
-					SIP2->dump_message( "== SOCK_CONNECT to $server" );
+					SIP2->dump_message( "==== SOCKS_PROXY from $ip to $server" );
 					$sc->{$sock} = SIP2::SC->new( $server );
 				}
 				$request .= "\n" if $request !~ m/\n$/ && $ENV{CRLF};
@@ -66,7 +65,6 @@ sub proxy {
 				$response .= "\n" if $response !~ m/\n$/ && $ENV{CRLF};
 				print $sock $response;
 				# warn ">> $ip ", dump($response);
-				SIP2->dump_message( ">> $ip ", dump($response) );
 			}
 		}
 	}
