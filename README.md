@@ -11,7 +11,7 @@ In Ubuntu, to install Data::Dump module
 
 to run the acl proxy server
 
-    ./acl-proxy.pl <listen host:port> <sipserver host:port>
+    ./acs-proxy.pl <listen host:port> <sipserver host:port>
 
 e.g.
 
@@ -23,7 +23,7 @@ to run the emulation:
 
 modify `config.pl` to use real users and barcodes, and run
 
-    ACL=<sipserver host:port> ./sc-emulation
+    ACL=<sipserver host:port> ./sc-emulator.pl
 
 ## Tests
 
