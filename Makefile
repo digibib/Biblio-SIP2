@@ -17,7 +17,7 @@ ifndef SIPSERVER_HOST_PORT
 	@echo "You must specify SIPSERVER_HOST_PORT"
 	exit 1
 endif
-	vagrant ssh -c 'docker run --rm -e "LISTEN_HOST_PORT=$(LISTEN_HOST_PORT)" -e "SIPSERVER_HOST_PORT=$(SIPSERVER_HOST_PORT)" digibib/biblio-sip2'
+	vagrant ssh -c 'docker run --rm -p "$(LISTEN_HOST_PORT):6001" -e "SIPSERVER_HOST_PORT=$(SIPSERVER_HOST_PORT)" digibib/biblio-sip2'
 
 login: # needs EMAIL, PASSWORD, USERNAME
 	@ vagrant ssh -c 'sudo docker login --email=$(EMAIL) --username=$(USERNAME) --password=$(PASSWORD)'

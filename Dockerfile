@@ -14,4 +14,6 @@ ADD /acs-proxy.pl /root/acs-proxy.pl
 
 WORKDIR /root
 
-CMD ./acs-proxy.pl $LISTEN_HOST_PORT $SIPSERVER_HOST_PORT
+EXPOSE 6001
+
+CMD ./acs-proxy.pl 0.0.0.0:6001 $SIPSERVER_HOST_PORT
