@@ -34,6 +34,7 @@ sub message {
 	my $sock = $self->{sock} || die "no sock?";
 	my $ip = $self->{sock}->peerhost;
 
+  # Add CR if not already there
 	$send .= "\r" unless $send =~ m/\r/;
 
 	$self->dump_message( ">>>> $ip ", $send );
@@ -46,7 +47,7 @@ sub message {
 
 	die "ERROR: no response from $ip\n" unless $in;
 
-	$in =~ s/^\n//; # && warn "removed LF from beginning";
+	$in =~ s/^\n//; # "remove LF from response";
 	$self->dump_message( "<<<< $ip ", $in );
 	die "expected $expect" unless substr($in,0,2) != $expect;
 

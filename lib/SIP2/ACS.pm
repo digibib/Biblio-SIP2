@@ -60,9 +60,9 @@ sub proxy {
 					SIP2->dump_message( "==== SOCKS_PROXY from $ip to $server" );
 					$sc->{$sock} = SIP2::SC->new( $server );
 				}
-				$request .= "\n" if $request !~ m/\n$/ && $ENV{CRLF};
+				#$request .= "\n" if $request !~ m/\n$/ && $ENV{CRLF};
 				my $response = $sc->{$sock}->message( $request );
-				$response .= "\n" if $response !~ m/\n$/ && $ENV{CRLF};
+				#$response .= "\n" if $response !~ m/\n$/ && $ENV{CRLF};
 				print $sock $response;
 				# warn ">> $ip ", dump($response);
 			}
