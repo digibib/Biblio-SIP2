@@ -12,6 +12,17 @@ sub dump_message {
 	my $code = substr($message,0,2);
 	warn $prefix, " ", $message_codes->{$code}, " ", Data::Dump::dump($message), "\n";
 }
+
+# function to run local mods on message
+sub transform_message {
+  my ( $self, $message ) = @_;
+
+    # strip extraneous '10' from barcodes in DS24 standard
+    $message =~ s/(|AB)10([0-9]{14})/$1$2/gi;
+
+    return $message;
+}
+
 1;
 __DATA__
 09	Checkin

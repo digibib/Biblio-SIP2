@@ -47,7 +47,7 @@ sub message {
 	$send =~ tr/^\n//d;                    # remove <LF> from response
 	$send .= "\r" unless $send =~ m/\r/;   # Add <CR> if not already there
 
-  $send = runLocalMods($send) if $ENV{USE_LOCAL_MODS};  # Run set of local mods before sending string
+  $send = $self->transform_message($send) if $ENV{USE_LOCAL_MODS};  # Run set of local mods before sending string
 
 	$self->dump_message( ">>>> $ip ", $send );
 
@@ -62,16 +62,6 @@ sub message {
 	$self->dump_message( "<<<< $ip ", $in );
 
 	return $in;
-}
-
-# function to run local mods on message
-sub runLocalMods {
-	my $msg = @_;
-
-		# strip extraneous '10' from barcodes in DS24 standard
-		$msg =~ s/(|AB)10([0-9]{14})/$1$2/gi;
-
-		return $msg;
 }
 
 1;
