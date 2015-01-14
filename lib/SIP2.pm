@@ -18,7 +18,7 @@ sub transform_message {
   my ( $self, $message ) = @_;
 
     # strip extraneous '10' from barcodes in DS24 standard
-    $message =~ s/(|AB)10([0-9]{14})/$1$2/gi;
+    $message =~ s/(?<=\|AB)10(?=\d+)//;
 
     return $message;
 }

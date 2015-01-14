@@ -44,10 +44,12 @@ sub message {
 	my $sock = $self->{sock} || die "no sock?";
 	my $ip = $self->{sock}->peerhost;
 
+	# Run set of local mods before sending string
+	$send = $self->transform_message($send) if $ENV{USE_LOCAL_MODS};
+
 	$send =~ tr/^\n//d;                    # remove <LF> from response
 	$send .= "\r" unless $send =~ m/\r/;   # Add <CR> if not already there
 
-  $send = $self->transform_message($send) if $ENV{USE_LOCAL_MODS};  # Run set of local mods before sending string
 
 	$self->dump_message( ">>>> $ip ", $send );
 
