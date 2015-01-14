@@ -29,27 +29,34 @@ sub new {
 sub message {
 	my ( $self, $send ) = @_;
 
+	if (!$send =~ /^[0-9]{2}/) {
+		$self->dump_message( "ILLEGAL MESSAGE - NOT SENDING!", $send);
+	  return "ILLEGAL MESSAGE";
+	}
+
+	if ($send =~ /^\s*$/) {
+		$self->dump_message( "EMPTY STRING - NOT SENDING!", "");
+		return "EMPTY MESSAGE";
+	}
+
 	local $/ = "\r";
 
 	my $sock = $self->{sock} || die "no sock?";
 	my $ip = $self->{sock}->peerhost;
 
-  # Add CR if not already there
-	$send .= "\r" unless $send =~ m/\r/;
+	$send =~ tr/^\n//d;                    # remove <LF> from response
+	$send .= "\r" unless $send =~ m/\r/;   # Add <CR> if not already there
 
 	$self->dump_message( ">>>> $ip ", $send );
-	print $sock $send;
+	print $sock $send;                     # Send message to socket
 	$sock->flush;
-
-	my $expect = substr($send,0,2) | 0x01;
 
 	my $in = <$sock>;
 
-	die "ERROR: no response from $ip\n" unless $in;
+	warn "ERROR: no response from $ip\n" unless $in;
+	$in =~ tr/^\n//d;                      # remove LF from response
 
-	$in =~ s/^\n//; # "remove LF from response";
 	$self->dump_message( "<<<< $ip ", $in );
-	die "expected $expect" unless substr($in,0,2) != $expect;
 
 	return $in;
 }
