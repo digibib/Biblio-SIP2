@@ -66,7 +66,7 @@ sub message {
 
 # function to run local mods on message
 sub runLocalMods {
-	my ( $self, $msg ) = @_;
+	my $msg = @_;
 
 		# strip extraneous '10' from barcodes in DS24 standard
 		$msg =~ s/(|AB)10([0-9]{14})/$1$2/gi;
