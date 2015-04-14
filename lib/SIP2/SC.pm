@@ -60,6 +60,7 @@ sub message {
 
 	warn "ERROR: no response from $ip\n" unless $in;
 	$in =~ tr/^\n//d;                      # remove LF from response
+	$in .= "\r" unless $in =~ m/\r/;       # Add <CR> if not already there
 
 	$self->dump_message( "<<<< $ip ", $in );
 
